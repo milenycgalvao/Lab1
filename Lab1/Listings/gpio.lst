@@ -1,0 +1,410 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; ------------------------------------------------------
+                       -------------------------
+    2 00000000                 THUMB                        ; Instruções do tip
+                                                            o Thumb-2
+    3 00000000         ; ------------------------------------------------------
+                       -------------------------
+    4 00000000         ; Declarações EQU - Defines
+    5 00000000         ; ========================
+    6 00000000         ; ========================
+    7 00000000         ; Definições dos Registradores Gerais
+    8 00000000 400FE608 
+                       SYSCTL_RCGCGPIO_R
+                               EQU              0x400FE608
+    9 00000000 400FEA08 
+                       SYSCTL_PRGPIO_R
+                               EQU              0x400FEA08
+   10 00000000         ; ========================
+   11 00000000         ; Definições dos Ports
+   12 00000000         ; PORT J
+   13 00000000 40058520 
+                       GPIO_PORTA_AHB_LOCK_R
+                               EQU              0x40058520
+   14 00000000 40058524 
+                       GPIO_PORTA_AHB_CR_R
+                               EQU              0x40058524
+   15 00000000 40058528 
+                       GPIO_PORTA_AHB_AMSEL_R
+                               EQU              0x40058528
+   16 00000000 4005852C 
+                       GPIO_PORTA_AHB_PCTL_R
+                               EQU              0x4005852C
+   17 00000000 40058400 
+                       GPIO_PORTA_AHB_DIR_R
+                               EQU              0x40058400
+   18 00000000 40058420 
+                       GPIO_PORTA_AHB_AFSEL_R
+                               EQU              0x40058420
+   19 00000000 4005851C 
+                       GPIO_PORTA_AHB_DEN_R
+                               EQU              0x4005851C
+   20 00000000 40058510 
+                       GPIO_PORTA_AHB_PUR_R
+                               EQU              0x40058510
+   21 00000000 400583FC 
+                       GPIO_PORTA_AHB_DATA_R
+                               EQU              0x400583FC
+   22 00000000 00000100 
+                       GPIO_PORTA
+                               EQU              2_000000100000000
+   23 00000000         ; PORT N
+   24 00000000 40066520 
+                       GPIO_PORTQ_AHB_LOCK_R
+                               EQU              0x40066520
+   25 00000000 40066524 
+                       GPIO_PORTQ_AHB_CR_R
+                               EQU              0x40066524
+   26 00000000 40066528 
+                       GPIO_PORTQ_AHB_AMSEL_R
+                               EQU              0x40066528
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   27 00000000 4006652C 
+                       GPIO_PORTQ_AHB_PCTL_R
+                               EQU              0x4006652C
+   28 00000000 40066400 
+                       GPIO_PORTQ_AHB_DIR_R
+                               EQU              0x40066400
+   29 00000000 40066420 
+                       GPIO_PORTQ_AHB_AFSEL_R
+                               EQU              0x40066420
+   30 00000000 4006651C 
+                       GPIO_PORTQ_AHB_DEN_R
+                               EQU              0x4006651C
+   31 00000000 40066510 
+                       GPIO_PORTQ_AHB_PUR_R
+                               EQU              0x40066510
+   32 00000000 400663FC 
+                       GPIO_PORTQ_AHB_DATA_R
+                               EQU              0x400663FC
+   33 00000000 00001000 
+                       GPIO_PORTQ
+                               EQU              2_001000000000000
+   34 00000000         
+   35 00000000         
+   36 00000000         ; ------------------------------------------------------
+                       -------------------------
+   37 00000000         ; Área de Código - Tudo abaixo da diretiva a seguir será
+                        armazenado na memória de 
+   38 00000000         ;                  código
+   39 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   40 00000000         
+   41 00000000         ; Se alguma função do arquivo for chamada em outro arqui
+                       vo 
+   42 00000000                 EXPORT           GPIO_Init   ; Permite chamar GP
+                                                            IO_Init de outro ar
+                                                            quivo
+   43 00000000                 EXPORT           PortA_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+   44 00000000                 EXPORT           PortQ_Output ; Permite chamar P
+                                                            ortJ_Input de outro
+                                                             arquivo
+   45 00000000         
+   46 00000000         
+   47 00000000         ;-------------------------------------------------------
+                       -------------------------
+   48 00000000         ; Função GPIO_Init
+   49 00000000         ; Parâmetro de entrada: Não tem
+   50 00000000         ; Parâmetro de saída: Não tem
+   51 00000000         GPIO_Init
+   52 00000000         ;=====================
+   53 00000000         ; ****************************************
+   54 00000000         ; Escrever função de inicialização dos GPIO
+   55 00000000         ; Inicializar as portas J e N
+   56 00000000         ; ****************************************
+   57 00000000 4770            BX               LR
+   58 00000002         
+   59 00000002         ; ------------------------------------------------------
+                       -------------------------
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   60 00000002         ; Função PortN_Output
+   61 00000002         ; Parâmetro de entrada: 
+   62 00000002         ; Parâmetro de saída: Não tem
+   63 00000002         PortA_Output
+   64 00000002         ; ****************************************
+   65 00000002         ; Escrever função que acende ou apaga o LED
+   66 00000002         ; ****************************************
+   67 00000002         
+   68 00000002 4770            BX               LR
+   69 00000004         ; ------------------------------------------------------
+                       -------------------------
+   70 00000004         ; Função PortJ_Input
+   71 00000004         ; Parâmetro de entrada: Não tem
+   72 00000004         ; Parâmetro de saída: R0 --> o valor da leitura
+   73 00000004         PortQ_Output
+   74 00000004         ; ****************************************
+   75 00000004         ; Escrever função que lê a chave e retorna 
+   76 00000004         ; um registrador se está ativada ou não
+   77 00000004         ; ****************************************
+   78 00000004         
+   79 00000004 4770            BX               LR
+   80 00000006         
+   81 00000006         
+   82 00000006         
+   83 00000006 00 00           ALIGN                        ; garante que o fim
+                                                             da seção está alin
+                                                            hada 
+   84 00000008                 END                          ; fim do arquivo
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M4.fp.sp 
+--depend=.\objects\gpio.d -o.\objects\gpio.o -IC:\Users\mileny\AppData\Local\Ar
+m\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129 --predefine="__EVAL SETA 1" 
+--predefine="__UVISION_VERSION SETA 539" --predefine="TM4C1294NCPDT SETA 1" --l
+ist=.\listings\gpio.lst gpio.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 39 in file gpio.s
+   Uses
+      None
+Comment: .text unused
+GPIO_Init 00000000
+
+Symbol: GPIO_Init
+   Definitions
+      At line 51 in file gpio.s
+   Uses
+      At line 42 in file gpio.s
+Comment: GPIO_Init used once
+PortA_Output 00000002
+
+Symbol: PortA_Output
+   Definitions
+      At line 63 in file gpio.s
+   Uses
+      At line 43 in file gpio.s
+Comment: PortA_Output used once
+PortQ_Output 00000004
+
+Symbol: PortQ_Output
+   Definitions
+      At line 73 in file gpio.s
+   Uses
+      At line 44 in file gpio.s
+Comment: PortQ_Output used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTA 00000100
+
+Symbol: GPIO_PORTA
+   Definitions
+      At line 22 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA unused
+GPIO_PORTA_AHB_AFSEL_R 40058420
+
+Symbol: GPIO_PORTA_AHB_AFSEL_R
+   Definitions
+      At line 18 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_AFSEL_R unused
+GPIO_PORTA_AHB_AMSEL_R 40058528
+
+Symbol: GPIO_PORTA_AHB_AMSEL_R
+   Definitions
+      At line 15 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_AMSEL_R unused
+GPIO_PORTA_AHB_CR_R 40058524
+
+Symbol: GPIO_PORTA_AHB_CR_R
+   Definitions
+      At line 14 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_CR_R unused
+GPIO_PORTA_AHB_DATA_R 400583FC
+
+Symbol: GPIO_PORTA_AHB_DATA_R
+   Definitions
+      At line 21 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_DATA_R unused
+GPIO_PORTA_AHB_DEN_R 4005851C
+
+Symbol: GPIO_PORTA_AHB_DEN_R
+   Definitions
+      At line 19 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_DEN_R unused
+GPIO_PORTA_AHB_DIR_R 40058400
+
+Symbol: GPIO_PORTA_AHB_DIR_R
+   Definitions
+      At line 17 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_DIR_R unused
+GPIO_PORTA_AHB_LOCK_R 40058520
+
+Symbol: GPIO_PORTA_AHB_LOCK_R
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 13 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_LOCK_R unused
+GPIO_PORTA_AHB_PCTL_R 4005852C
+
+Symbol: GPIO_PORTA_AHB_PCTL_R
+   Definitions
+      At line 16 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_PCTL_R unused
+GPIO_PORTA_AHB_PUR_R 40058510
+
+Symbol: GPIO_PORTA_AHB_PUR_R
+   Definitions
+      At line 20 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_AHB_PUR_R unused
+GPIO_PORTQ 00001000
+
+Symbol: GPIO_PORTQ
+   Definitions
+      At line 33 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ unused
+GPIO_PORTQ_AHB_AFSEL_R 40066420
+
+Symbol: GPIO_PORTQ_AHB_AFSEL_R
+   Definitions
+      At line 29 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_AFSEL_R unused
+GPIO_PORTQ_AHB_AMSEL_R 40066528
+
+Symbol: GPIO_PORTQ_AHB_AMSEL_R
+   Definitions
+      At line 26 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_AMSEL_R unused
+GPIO_PORTQ_AHB_CR_R 40066524
+
+Symbol: GPIO_PORTQ_AHB_CR_R
+   Definitions
+      At line 25 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_CR_R unused
+GPIO_PORTQ_AHB_DATA_R 400663FC
+
+Symbol: GPIO_PORTQ_AHB_DATA_R
+   Definitions
+      At line 32 in file gpio.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Absolute symbols
+
+      None
+Comment: GPIO_PORTQ_AHB_DATA_R unused
+GPIO_PORTQ_AHB_DEN_R 4006651C
+
+Symbol: GPIO_PORTQ_AHB_DEN_R
+   Definitions
+      At line 30 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_DEN_R unused
+GPIO_PORTQ_AHB_DIR_R 40066400
+
+Symbol: GPIO_PORTQ_AHB_DIR_R
+   Definitions
+      At line 28 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_DIR_R unused
+GPIO_PORTQ_AHB_LOCK_R 40066520
+
+Symbol: GPIO_PORTQ_AHB_LOCK_R
+   Definitions
+      At line 24 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_LOCK_R unused
+GPIO_PORTQ_AHB_PCTL_R 4006652C
+
+Symbol: GPIO_PORTQ_AHB_PCTL_R
+   Definitions
+      At line 27 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_PCTL_R unused
+GPIO_PORTQ_AHB_PUR_R 40066510
+
+Symbol: GPIO_PORTQ_AHB_PUR_R
+   Definitions
+      At line 31 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_AHB_PUR_R unused
+SYSCTL_PRGPIO_R 400FEA08
+
+Symbol: SYSCTL_PRGPIO_R
+   Definitions
+      At line 9 in file gpio.s
+   Uses
+      None
+Comment: SYSCTL_PRGPIO_R unused
+SYSCTL_RCGCGPIO_R 400FE608
+
+Symbol: SYSCTL_RCGCGPIO_R
+   Definitions
+      At line 8 in file gpio.s
+   Uses
+      None
+Comment: SYSCTL_RCGCGPIO_R unused
+22 symbols
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Absolute symbols
+
+360 symbols in table
